@@ -1,0 +1,17 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: service-catalog-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zhkh_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master-service.yml
+    default-schema: public
+    enabled: true

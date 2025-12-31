@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-services-table
+      author: YouRB1T
+      changes:
+        - createTable:
+            tableName: services
+            columns:
+              - column:
+                  name: service_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: service_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  defaultValueBoolean: true

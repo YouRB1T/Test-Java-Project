@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zhkh_db
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master-resident.yaml
+server:
+  port: 8082

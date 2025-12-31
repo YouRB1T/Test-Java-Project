@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$USER_HOME$/Desktop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/apartment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/apartment-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/building-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/building-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/counterparty-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/employ-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/office-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/registration-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resident-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resident-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services-catalog-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/user-service/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

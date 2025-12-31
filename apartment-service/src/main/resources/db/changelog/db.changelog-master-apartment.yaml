@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: YouRB1T
+      changes:
+        - createTable:
+            tableName: apartments
+            columns:
+              - column:
+                  name: apartment_id
+                  type: UUID
+                  defaultValueComputed: gen_random_uuid()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: apartment_number
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: building_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: square_meters
+                  type: DECIMAL(8,2)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: number_of_rooms
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+
+
+        - addForeignKeyConstraint:
+            baseTableName: apartments
+            baseColumnNames: building_id
+            referencedTableName: buildings
+            referencedColumnNames: building_id
+            onDelete: CASCADE
+            constraintName: fk_apartments_buildings

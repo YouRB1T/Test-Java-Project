@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DB_Task.iml" filepath="$PROJECT_DIR$/DB_Task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/building-service/building-service.iml" filepath="$PROJECT_DIR$/building-service/building-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/resident-service/resident-service.iml" filepath="$PROJECT_DIR$/resident-service/resident-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zhkh-platform.iml" filepath="$PROJECT_DIR$/zhkh-platform.iml" />
+    </modules>
+  </component>
+</project>

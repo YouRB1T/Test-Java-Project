@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-counterparty-table
+      author: YouRB1T
+      changes:
+        - createTable:
+            tableName: counterparties
+            columns:
+              - column:
+                  name: counterparty_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: building_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: phone
+                  type: VARCHAR(20)
+
+              - column:
+                  name: email
+                  type: VARCHAR(100)
