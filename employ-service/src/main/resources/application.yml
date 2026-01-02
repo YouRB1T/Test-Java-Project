@@ -6,6 +6,6 @@ spring:
   jpa:
     show-sql: true
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master-employ.yaml
+    change-log: classpath:/db/changelog/db.changelog-master-employee.yaml
 server:
   port: 8082

@@ -4,10 +4,10 @@ databaseChangeLog:
       author: YouRB1T
       changes:
         - createTable:
-            tableName: employs
+            tableName: employees
             columns:
               - column:
-                  name: employ_id
+                  name: employee_id
                   type: UUID
                   constraints:
                     primaryKey: true

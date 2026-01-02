@@ -20,7 +20,7 @@ public interface EmployeeService {
 
     void delete(UUID id);
 
-    Set<UUID> getServiceIds(UUID employeeId);
+    Set<UUID> getServices(UUID employeeId);
 
     Set<UUID> addService(UUID employeeId, UUID serviceId);
 
