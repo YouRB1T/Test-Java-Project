@@ -1,15 +1,17 @@
-package api;
+package kafka.payloads;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class RegistrationCounterpartyRequest {
-    private String userName;
+@NoArgsConstructor
+public class CounterpartyPayload {
+    private UUID userId;
     private String email;
-    private String password;
-
     private String name;
     private String taxId;
     private String RRC;
@@ -18,3 +20,4 @@ public class RegistrationCounterpartyRequest {
     private String phone;
     private String contactPerson;
 }
+

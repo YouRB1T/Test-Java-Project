@@ -21,6 +21,9 @@ public class Counterparty {
     @Column(name = "counterparty_id", nullable = false)
     private UUID id;
 
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
     @Column(name = "organization_name", nullable = false)
     private String name;
 

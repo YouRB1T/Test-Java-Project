@@ -32,6 +32,9 @@ public class Employee {
     @Column(name = "middle_name", length = 100)
     private String middleName;
 
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
     @Column(name = "experience_years")
     private Integer experienceYears;
 
