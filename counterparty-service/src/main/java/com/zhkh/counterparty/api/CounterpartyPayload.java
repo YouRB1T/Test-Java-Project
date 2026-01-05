@@ -2,19 +2,18 @@ package com.zhkh.counterparty.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class CounterpartyRequest {
+@NoArgsConstructor
+public class CounterpartyPayload {
     private String name;
     private String taxId;
-    private String RRC;
-    private String PSRN;
+    private String rrc;
+    private String psrn;
     private String address;
     private String phone;
-    private String email;
     private String contactPerson;
-    private UUID userId;
 }
+

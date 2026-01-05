@@ -79,6 +79,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void registrationResident(RegistrationResidentRequest request) {
+
         RegistrationUserResponse responseUser = registrationUser(
                 new RegistrationUserRequest(
                         request.getUserName(),
@@ -88,6 +89,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         );
 
         ResidentPayload payload = residentMapper.toPayload(request);
+
         kafkaTemplate.send("resident-registration", new RegistrationEvent(
                 responseUser.getUserId(),
                 responseUser.getEmail(),

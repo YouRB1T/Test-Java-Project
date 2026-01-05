@@ -1,24 +1,19 @@
-package com.zhkh.api;
+package org.zhkh.resident.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeRequest {
+public class ResidentPayload {
     private String firstName;
     private String lastName;
     private String middleName;
-    private Integer experienceYears;
-    private UUID officeId;
-    private UUID userId;
+    private UUID apartmentId;
     private String phone;
-    private String email;
-    private LocalDate hireDate;
 }
 
