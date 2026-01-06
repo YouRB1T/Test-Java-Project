@@ -1,6 +1,6 @@
 Использование данных из [api.md]
 
-#### **User Management Service** +
+#### **User Management Service** 
 Сервис управления пользователями - жителями домов
 Через сервис я могу выполнять CRUD операции над информацией о жителях
 **Ручки:**
@@ -19,7 +19,7 @@
 * GET /api/residents/apartments/{apartment_id} 
 * GET /api/residents/buildings/{building_id} 
 
-#### **Service Catalog Service**
+#### **Service Catalog Service** +
 Сервис управления услугами и их исполнителями
 Через данный сервис я могу выполнять CRUD операции над информацией о предоставляемых услугах
 **Ручки**:

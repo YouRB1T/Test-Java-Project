@@ -1,4 +1,4 @@
-package com.zhkh.servicescatalog.config;
+package com.zhkh.apartment.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -13,8 +13,8 @@ public class SwaggerConfig {
     public OpenAPI residentServiceAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Building Service API")
-                        .description("API для управления услугами работников и контрагентов")
+                        .title("Apartment Service API")
+                        .description("API для управления контрагентами")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Базы данных")
