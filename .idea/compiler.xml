@@ -22,6 +22,7 @@
         <module name="resident-service" />
         <module name="office-service" />
         <module name="api-gateway" />
+        <module name="request-service" />
         <module name="registration-service" />
         <module name="user-service" />
         <module name="counterparty-service" />
@@ -44,6 +45,7 @@
       <module name="employee-service" options="-parameters" />
       <module name="office-service" options="-parameters" />
       <module name="registration-service" options="-parameters" />
+      <module name="request-service" options="-parameters" />
       <module name="resident-service" options="-parameters" />
       <module name="services-catalog-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
