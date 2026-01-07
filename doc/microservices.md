@@ -28,7 +28,7 @@
 * GET /api/services/{service_id} +
 * DELETE /api/services/{service_id} +
 
-#### **Request Service**
+#### **Request Service** +
 Сервис управления заявками
 Через данный сервис я могу выполнять CRUD операции над информацией о заявках
 **Ручки**:
@@ -38,22 +38,22 @@
 * GET /api/requests/{request_id} +
 * DELETE /api/requests/{request_id} +
 * GET api/requests/{user_id} +
-* GET /api/requests/{request_id}/services
-* POST /api/requests/{request_id}/services
-* DELETE /api/requests/{request_id}/services/{service_id}
+* GET /api/requests/{request_id}/services +
+* POST /api/requests/{request_id}/services +
+* DELETE /api/requests/{request_id}/services/{service_id} +
 * GET /api/requests/{request_id}/changes +
 * POST /api/requests/{request_id}/changes +
 
-#### **Review Service**
+#### **Review Service** +
 Сервис управления отзывами
 Через данный сервис я могу выполнять CRUD операции над информацией о отзывах над проделанной работой по заявкам
 **Ручки**:
-* *POST* api/review
-* PUT api/review/{id_review}
-* *GET* api/review/employee/{id_employee}
-* GET /api/reviews
-* GET /api/reviews/{review_id}
-* DELETE /api/reviews/{review_id}
+* POST api/review +
+* PUT api/review/{id_review} +
+* GET api/review/employee/{id_employee} +
+* GET /api/reviews +
+* GET /api/reviews/{review_id} +
+* DELETE /api/reviews/{review_id} +
 
 #### **Employee Service** +
 Сервис управления исполнителями услуг работников ТСЖ

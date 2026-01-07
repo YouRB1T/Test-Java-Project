@@ -20,6 +20,7 @@
         <module name="apartment-service" />
         <module name="building-service" />
         <module name="resident-service" />
+        <module name="review-service" />
         <module name="office-service" />
         <module name="api-gateway" />
         <module name="request-service" />
@@ -47,6 +48,7 @@
       <module name="registration-service" options="-parameters" />
       <module name="request-service" options="-parameters" />
       <module name="resident-service" options="-parameters" />
+      <module name="review-service" options="-parameters" />
       <module name="services-catalog-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

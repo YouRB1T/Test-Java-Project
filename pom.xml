@@ -25,6 +25,7 @@
         <module>employ-service</module>
         <module>registration-service</module>
         <module>request-service</module>
+        <module>review-service</module>
     </modules>
 
     <parent>
