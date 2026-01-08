@@ -7,26 +7,6 @@ spring:
   application:
     name: review-service
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/zhkh_db
-    username: review_user
-    password: review_pass
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        jdbc:
-          time_zone: UTC
-
-  liquibase:
-    enabled: true
-    change-log: classpath:/db/changelog/db.changelog-master.yaml
-
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -39,7 +19,6 @@ logging:
   level:
     root: INFO
     org.springframework.web: DEBUG
-    org.hibernate.SQL: DEBUG
 
 management:
   endpoints:
