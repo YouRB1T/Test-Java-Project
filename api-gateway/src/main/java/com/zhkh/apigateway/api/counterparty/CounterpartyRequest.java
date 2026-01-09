@@ -3,13 +3,11 @@ package com.zhkh.apigateway.api.counterparty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class CounterpartyResponse {
-    private UUID id;
+public class CounterpartyRequest {
     private String name;
     private String taxId;
     private String RRC;
@@ -18,7 +16,6 @@ public class CounterpartyResponse {
     private String phone;
     private String email;
     private String contactPerson;
-    private boolean isActive;
-    private Date createAt;
-    private Date updateAt;
+    private UUID userId;
 }
+

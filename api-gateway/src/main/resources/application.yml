@@ -27,57 +27,57 @@ spring:
 
       routes:
         - id: apartment-service
-          uri: ${APARTMENT_SERVICE_URL}
+          uri: ${services.apartment.url}
           predicates:
             - Path=/api/apartments/**
 
         - id: building-service
-          uri: ${BUILDING_SERVICE_URL}
+          uri: ${services.building.url}
           predicates:
             - Path=/api/buildings/**
 
         - id: counterparty-service
-          uri: ${COUNTERPARTY_SERVICE_URL}
+          uri: ${services.counterparty.url}
           predicates:
             - Path=/api/counterparties/**
 
         - id: employee-service
-          uri: ${EMPLOYEE_SERVICE_URL}
+          uri: ${services.employee.url}
           predicates:
             - Path=/api/employees/**
 
         - id: office-service
-          uri: ${OFFICE_SERVICE_URL}
+          uri: ${services.office.url}
           predicates:
             - Path=/offices/**
 
         - id: registration-service
-          uri: ${REGISTRATION_SERVICE_URL}
+          uri: ${services.registration.url}
           predicates:
             - Path=/api/registration/**
 
         - id: request-service
-          uri: ${REQUEST_SERVICE_URL}
+          uri: ${services.request.url}
           predicates:
             - Path=/api/requests/**
 
         - id: resident-service
-          uri: ${RESIDENT_SERVICE_URL}
+          uri: ${services.resident.url}
           predicates:
             - Path=/api/residents/**
 
         - id: review-service
-          uri: ${REVIEW_SERVICE_URL}
+          uri: ${services.review.url}
           predicates:
             - Path=/api/reviews/**
 
         - id: service-catalog-service
-          uri: ${SERVICE_CATALOG_SERVICE_URL}
+          uri: ${services.service-catalog.url}
           predicates:
             - Path=/api/services/**
-
+            -
         - id: user-service
-          uri: ${USER_SERVICE_URL}
+          uri: ${services.user.url}
           predicates:
             - Path=/api/users/**
   security:
@@ -94,6 +94,31 @@ management:
   endpoint:
     health:
       show-details: always
+
+services:
+  apartment:
+    url: ${APARTMENT_SERVICE_URL}
+  building:
+    url: ${BUILDING_SERVICE_URL}
+  counterparty:
+    url: ${COUNTERPARTY_SERVICE_URL}
+  employee:
+    url: ${EMPLOYEE_SERVICE_URL}
+  office:
+    url: ${OFFICE_SERVICE_URL}
+  registration:
+    url: ${REGISTRATION_SERVICE_URL}
+  request:
+    url: ${REQUEST_SERVICE_URL}
+  resident:
+    url: ${RESIDENT_SERVICE_URL}
+  review:
+    url: ${REVIEW_SERVICE_URL}
+  service-catalog:
+    url: ${SERVICE_CATALOG_SERVICE_URL}
+  user:
+    url: ${USER_SERVICE_URL}
+
 
 logging:
   level:

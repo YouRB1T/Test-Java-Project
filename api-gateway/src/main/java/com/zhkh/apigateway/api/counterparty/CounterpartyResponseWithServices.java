@@ -1,4 +1,4 @@
 package com.zhkh.apigateway.api.counterparty;
 
-public class CounerpartyRequest {
+public class CounterpartyResponseWithServices {
 }
