@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/requests")
+@RequestMapping("/requests")
 @RequiredArgsConstructor
 @Tag(
         name = "Requests",
@@ -32,8 +32,6 @@ public class RequestController {
 
     private final RequestService requestService;
     private final ChangeService changeService;
-
-    // -------------------- REQUESTS --------------------
 
     @Operation(
             summary = "Создание заявки",

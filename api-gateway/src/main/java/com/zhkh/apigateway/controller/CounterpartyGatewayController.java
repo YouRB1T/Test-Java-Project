@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,8 +29,10 @@ public class CounterpartyGatewayController {
     @Operation(summary = "Получить всех контрагентов")
     @ApiResponse(responseCode = "200", description = "Список контрагентов")
     @GetMapping
-    public ResponseEntity<List<CounterpartyResponse>> getAll() {
-        return ResponseEntity.ok(counterpartyService.getAll());
+    public Mono<ResponseEntity<List<CounterpartyResponse>>> getAll() {
+        return counterpartyService.getAll().map(
+                ResponseEntity::ok
+        );
     }
 
     @Operation(summary = "Получить контрагента по ID")
@@ -38,22 +41,22 @@ public class CounterpartyGatewayController {
             @ApiResponse(responseCode = "404", description = "Контрагент не найден")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<CounterpartyResponse> getById(
+    public Mono<ResponseEntity<CounterpartyResponse>> getById(
             @Parameter(description = "ID контрагента")
             @PathVariable UUID id
     ) {
-        return ResponseEntity.ok(counterpartyService.getById(id));
+        return counterpartyService.getById(id)
+                .map(ResponseEntity::ok);
     }
 
     @Operation(summary = "Создать контрагента")
     @ApiResponse(responseCode = "201", description = "Контрагент создан")
     @PostMapping
-    public ResponseEntity<CounterpartyResponse> create(
+    public Mono<ResponseEntity<CounterpartyResponse>> create(
             @RequestBody CounterpartyRequest request
     ) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(counterpartyService.create(request));
+        return counterpartyService.create(request)
+                .map(ResponseEntity::ok);
     }
 
     @Operation(summary = "Обновить контрагента")
@@ -62,11 +65,12 @@ public class CounterpartyGatewayController {
             @ApiResponse(responseCode = "404", description = "Контрагент не найден")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<CounterpartyResponse> update(
+    public Mono<ResponseEntity<CounterpartyResponse>> update(
             @PathVariable UUID id,
             @RequestBody CounterpartyRequest request
     ) {
-        return ResponseEntity.ok(counterpartyService.update(id, request));
+        return counterpartyService.update(id, request)
+                .map(ResponseEntity::ok);
     }
 
     @Operation(summary = "Удалить контрагента")
@@ -84,34 +88,33 @@ public class CounterpartyGatewayController {
     @Operation(summary = "Получить услуги контрагента")
     @ApiResponse(responseCode = "200", description = "Список услуг")
     @GetMapping("/{counterpartyId}/services")
-    public ResponseEntity<List<ServiceResponse>> getServices(
+    public Mono<ResponseEntity<List<ServiceResponse>>> getServices(
             @PathVariable UUID counterpartyId
     ) {
-        return ResponseEntity.ok(counterpartyService.getServices(counterpartyId));
+        return counterpartyService.getServices(counterpartyId)
+                .map(ResponseEntity::ok);
     }
 
     @Operation(summary = "Добавить услугу контрагенту")
     @ApiResponse(responseCode = "200", description = "Услуга добавлена")
     @PostMapping("/{counterpartyId}/services/{serviceId}")
-    public ResponseEntity<List<ServiceResponse>> addService(
+    public Mono<ResponseEntity<List<ServiceResponse>>> addService(
             @PathVariable UUID counterpartyId,
             @PathVariable UUID serviceId
     ) {
-        return ResponseEntity.ok(
-                counterpartyService.addService(counterpartyId, serviceId)
-        );
+        return counterpartyService.addService(counterpartyId, serviceId)
+                .map(ResponseEntity::ok);
     }
 
     @Operation(summary = "Удалить услугу у контрагента")
     @ApiResponse(responseCode = "200", description = "Услуга удалена")
     @DeleteMapping("/{counterpartyId}/services/{serviceId}")
-    public ResponseEntity<List<ServiceResponse>> deleteService(
+    public Mono<ResponseEntity<List<ServiceResponse>>> deleteService(
             @PathVariable UUID counterpartyId,
             @PathVariable UUID serviceId
     ) {
-        return ResponseEntity.ok(
-                counterpartyService.deleteService(counterpartyId, serviceId)
-        );
+        return counterpartyService.deleteService(counterpartyId, serviceId)
+                .map(ResponseEntity::ok);
     }
 }
 

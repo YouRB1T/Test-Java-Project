@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/counterparties")
+@RequestMapping("/counterparties")
 @RequiredArgsConstructor
 @Tag(name = "Counterparty Controller", description = "CRUD операции для контрагентов")
 public class CounterpartyController {

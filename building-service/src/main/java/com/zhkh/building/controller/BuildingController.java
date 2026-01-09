@@ -18,7 +18,7 @@ import java.util.ListIterator;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/buildings")
+@RequestMapping("/buildings")
 @RequiredArgsConstructor
 @Tag(name = "Buildings", description = "Операции со зданиями")
 public class BuildingController {

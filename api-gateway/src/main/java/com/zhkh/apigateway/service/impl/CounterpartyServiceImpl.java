@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,137 +19,115 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CounterpartyServiceImpl implements CounterpartyService {
 
-    @Qualifier(value = "counterpartyWebClient")
+    @Qualifier("counterpartyWebClient")
     private final WebClient counterpartyWebClient;
 
-    @Qualifier(value = "serviceCatalogWebClient")
+    @Qualifier("serviceCatalogWebClient")
     private final WebClient serviceCatalogWebClient;
 
     @Override
-    public List<CounterpartyResponse> getAll() {
+    public Mono<List<CounterpartyResponse>> getAll() {
         return counterpartyWebClient
                 .get()
                 .uri("/api/counterparties")
                 .retrieve()
                 .bodyToFlux(CounterpartyResponse.class)
-                .collectList()
-                .block();
+                .collectList();
     }
 
     @Override
-    public CounterpartyResponse getById(UUID id) {
+    public Mono<CounterpartyResponse> getById(UUID id) {
         return counterpartyWebClient
                 .get()
                 .uri("/api/counterparties/{id}", id)
                 .retrieve()
-                .bodyToMono(CounterpartyResponse.class)
-                .block();
+                .bodyToMono(CounterpartyResponse.class);
     }
 
     @Override
-    public CounterpartyResponse create(CounterpartyRequest request) {
+    public Mono<CounterpartyResponse> create(CounterpartyRequest request) {
         return counterpartyWebClient
                 .post()
                 .uri("/api/counterparties")
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(CounterpartyResponse.class)
-                .block();
+                .bodyToMono(CounterpartyResponse.class);
     }
 
     @Override
-    public CounterpartyResponse update(UUID id, CounterpartyRequest request) {
+    public Mono<CounterpartyResponse> update(UUID id, CounterpartyRequest request) {
         return counterpartyWebClient
                 .put()
                 .uri("/api/counterparties/{id}", id)
                 .bodyValue(request)
                 .retrieve()
-                .bodyToMono(CounterpartyResponse.class)
-                .block();
+                .bodyToMono(CounterpartyResponse.class);
     }
 
     @Override
-    public void delete(UUID id) {
-        counterpartyWebClient
+    public Mono<Void> delete(UUID id) {
+        return counterpartyWebClient
                 .delete()
                 .uri("/api/counterparties/{id}", id)
                 .retrieve()
-                .bodyToMono(void.class)
-                .block();
+                .toBodilessEntity()
+                .then();
     }
 
     @Override
-    public List<ServiceResponse> addService(UUID counterpartyId, UUID serviceId) {
-        CounterpartyResponseWithServices counterpartyResponseWithServices
-                = counterpartyWebClient
+    public Mono<List<ServiceResponse>> getServices(UUID counterpartyId) {
+        return getServiceIds(counterpartyId)
+                .flatMap(this::loadServices);
+    }
+
+    @Override
+    public Mono<List<ServiceResponse>> addService(UUID counterpartyId, UUID serviceId) {
+        return counterpartyWebClient
                 .post()
-                .uri("/api/counterparties/{counterpartyId}/services/{serviceId}", counterpartyId, serviceId)
+                .uri("/api/counterparties/{cid}/services/{sid}", counterpartyId, serviceId)
                 .retrieve()
                 .bodyToMono(CounterpartyResponseWithServices.class)
-                .block();
-
-        assert counterpartyResponseWithServices != null;
-
-        List<UUID> servicesIds = counterpartyResponseWithServices.getServiceResponseList();
-
-        return servicesIds.stream()
-                .map(id -> serviceCatalogWebClient
-                        .get()
-                        .uri("/api/services/{id}" , id)
-                        .retrieve()
-                        .bodyToMono(ServiceResponse.class)
-                        .block())
-                .toList();
+                .map(CounterpartyResponseWithServices::getServiceResponseList)
+                .flatMap(this::loadServices);
     }
 
     @Override
-    public List<ServiceResponse> deleteService(UUID counterpartyId, UUID serviceId) {
-        CounterpartyResponseWithServices counterpartyResponseWithServices
-                = counterpartyWebClient
+    public Mono<List<ServiceResponse>> deleteService(UUID counterpartyId, UUID serviceId) {
+        return counterpartyWebClient
                 .delete()
-                .uri("/api/counterparties/{counterpartyId}/services/{serviceId}", counterpartyId, serviceId)
+                .uri("/api/counterparties/{cid}/services/{sid}", counterpartyId, serviceId)
                 .retrieve()
                 .bodyToMono(CounterpartyResponseWithServices.class)
-                .block();
-
-        assert counterpartyResponseWithServices != null;
-
-        List<UUID> servicesIds = counterpartyResponseWithServices.getServiceResponseList();
-
-        return servicesIds.stream()
-                .map(id -> serviceCatalogWebClient
-                        .get()
-                        .uri("/api/services/{id}" , id)
-                        .retrieve()
-                        .bodyToMono(ServiceResponse.class)
-                        .block())
-                .toList();
+                .map(CounterpartyResponseWithServices::getServiceResponseList)
+                .flatMap(this::loadServices);
     }
 
-    @Override
-    public List<ServiceResponse> getServices(UUID counterpartyId) {
-        CounterpartyResponseWithServices counterpartyResponseWithServices
-                = counterpartyWebClient
+
+    private Mono<List<UUID>> getServiceIds(UUID counterpartyId) {
+        return counterpartyWebClient
                 .get()
-                .uri("/api/counterparties/{counterpartyId}/services", counterpartyId)
+                .uri("/api/counterparties/{id}/services", counterpartyId)
                 .retrieve()
                 .bodyToMono(CounterpartyResponseWithServices.class)
-                .block();
+                .map(CounterpartyResponseWithServices::getServiceResponseList);
+    }
 
-        assert counterpartyResponseWithServices != null;
+    private Mono<List<ServiceResponse>> loadServices(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Mono.just(List.of());
+        }
 
-        List<UUID> servicesIds = counterpartyResponseWithServices.getServiceResponseList();
-
-        return servicesIds.stream()
-                .map(id -> serviceCatalogWebClient
-                        .get()
-                        .uri("/api/services/{id}" , id)
-                        .retrieve()
-                        .bodyToMono(ServiceResponse.class)
-                        .block())
-                .toList();
+        return Flux.fromIterable(ids)
+                .flatMap(id ->
+                        serviceCatalogWebClient
+                                .get()
+                                .uri("/api/services/{id}", id)
+                                .retrieve()
+                                .bodyToMono(ServiceResponse.class)
+                )
+                .collectList();
     }
 }
+
