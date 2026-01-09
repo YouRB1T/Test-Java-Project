@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.UUID;
@@ -104,9 +105,8 @@ public class OfficeGatewayController {
             @ApiResponse(responseCode = "500", description = "Ошибка сервера")
     })
     @GetMapping("/employees/{id}")
-    public ResponseEntity<List<EmployeeResponse>> getEmployeesOfOffice(@PathVariable UUID id) {
-        return ResponseEntity.ok(
-                employeeService.getEmployeesByOffice(id)
-        );
+    public Mono<ResponseEntity<List<EmployeeResponse>>> getEmployeesOfOffice(@PathVariable UUID id) {
+        return employeeService.getEmployeesByOffice(id)
+                .map(ResponseEntity::ok);
     }
 }
