@@ -64,7 +64,7 @@ public class CounterpartyController {
         );
     }
 
-    @Operation(summary = "Удаление услеги контрагента")
+    @Operation(summary = "Удаление услуги контрагента")
     @DeleteMapping("/{counterparty_id}/services/{service_id}")
     public ResponseEntity<CounterpartyServicesResponse> deleteService(
             @PathVariable("service_id") UUID serviceId, @PathVariable("counterparty_id") UUID counterpartyId
