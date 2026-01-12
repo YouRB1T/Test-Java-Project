@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/services")
+@RequestMapping("/services")
 @RequiredArgsConstructor
 @Tag(name = "Service Catalog", description = "Управление услугами")
 public class ServiceCatalogController {

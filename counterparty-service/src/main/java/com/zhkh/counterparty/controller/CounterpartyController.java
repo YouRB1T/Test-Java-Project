@@ -2,6 +2,7 @@ package com.zhkh.counterparty.controller;
 
 import com.zhkh.counterparty.api.CounterpartyRequest;
 import com.zhkh.counterparty.api.CounterpartyResponse;
+import com.zhkh.counterparty.api.CounterpartyServicesResponse;
 import com.zhkh.counterparty.service.CounterpartyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/counterparties")
+@RequestMapping("/counterparties")
 @RequiredArgsConstructor
 @Tag(name = "Counterparty Controller", description = "CRUD операции для контрагентов")
 public class CounterpartyController {
@@ -51,5 +52,33 @@ public class CounterpartyController {
     @DeleteMapping("/{office_id}")
     public void delete(@PathVariable("office_id") UUID id) {
         counterpartyService.deleteById(id);
+    }
+
+    @Operation(summary = "Добавить услугу контрагенту")
+    @PostMapping("/{counterparty_id}/services/{service_id}")
+    public ResponseEntity<CounterpartyServicesResponse> addService(
+            @PathVariable("service_id") UUID serviceId, @PathVariable("counterparty_id") UUID counterpartyId
+    ) {
+        return ResponseEntity.ok(
+                counterpartyService.addService(serviceId, counterpartyId)
+        );
+    }
+
+    @Operation(summary = "Удаление услуги контрагента")
+    @DeleteMapping("/{counterparty_id}/services/{service_id}")
+    public ResponseEntity<CounterpartyServicesResponse> deleteService(
+            @PathVariable("service_id") UUID serviceId, @PathVariable("counterparty_id") UUID counterpartyId
+    ) {
+        return ResponseEntity.ok(
+                counterpartyService.deleteService(serviceId, counterpartyId)
+        );
+    }
+
+    @Operation(summary = "Получение всех услуг контрагента")
+    @GetMapping("/{counterparty_id}/services")
+    public ResponseEntity<CounterpartyServicesResponse> getServices(@PathVariable("counterparty_id") UUID counterpartyId) {
+        return ResponseEntity.ok(
+                counterpartyService.getServices(counterpartyId)
+        );
     }
 }

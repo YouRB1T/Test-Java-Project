@@ -5,8 +5,10 @@ import com.zhkh.apigateway.api.building.BuildingApartmentResponseDTO;
 import com.zhkh.apigateway.api.building.BuildingApartmentsResponse;
 import com.zhkh.apigateway.api.building.BuildingRequest;
 import com.zhkh.apigateway.api.building.BuildingResponse;
+import com.zhkh.apigateway.config.WebClientConfig;
 import com.zhkh.apigateway.service.BuildingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -18,13 +20,18 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BuildingServiceImpl implements BuildingService {
-    private final WebClient.Builder webClientBuilder;
+
+    @Qualifier(value = "buildingWebClient")
+    private final WebClient buildingWebClient;
+
+    @Qualifier(value = "apartmentWebClient")
+    private final WebClient apartmentWebClient;
 
     @Override
     public BuildingResponse createBuilding(BuildingRequest request) {
-        return webClientBuilder.build()
+        return buildingWebClient
                 .post()
-                .uri("/buildings")
+                .uri("/api/buildings")
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(BuildingResponse.class)
@@ -33,9 +40,9 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public BuildingResponse updateBuilding(UUID id, BuildingRequest request) {
-        return webClientBuilder.build()
+        return buildingWebClient
                 .put()
-                .uri("/buildings/" + id)
+                .uri("/api/buildings/{id}", id)
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(BuildingResponse.class)
@@ -44,9 +51,9 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public BuildingResponse getBuilding(UUID id) {
-        return webClientBuilder.build()
+        return buildingWebClient
                 .get()
-                .uri("/buildings/" + id)
+                .uri("/api/buildings/{id}", id)
                 .retrieve()
                 .bodyToMono(BuildingResponse.class)
                 .block();
@@ -54,9 +61,9 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void deleteBuilding(UUID id) {
-        webClientBuilder.build()
+       buildingWebClient
                 .delete()
-                .uri("/buildings/" + id)
+                .uri("/api/buildings/{id}", id)
                 .retrieve()
                 .bodyToMono(void.class)
                 .block();
@@ -64,9 +71,9 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public List<BuildingResponse> getBuildings() {
-        return webClientBuilder.build()
+        return buildingWebClient
                 .get()
-                .uri("/buildings")
+                .uri("/api/buildings")
                 .retrieve()
                 .bodyToFlux(BuildingResponse.class)
                 .collectList()
@@ -75,17 +82,17 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public BuildingApartmentsResponse getBuildingsWithApartments(UUID id) {
-        BuildingApartmentResponseDTO response = webClientBuilder.build()
+        BuildingApartmentResponseDTO response = buildingWebClient
                 .get()
-                .uri("/buildings/" + id + "/apartments")
+                .uri("/api/buildings/{id}/apartments", id)
                 .retrieve()
                 .bodyToMono(BuildingApartmentResponseDTO.class)
                 .block();
 
         List<ApartmentResponse> apartments = response.getApartmentIds()
-                .stream().map(apartmentId -> webClientBuilder.build()
+                .stream().map(apartmentId -> apartmentWebClient
                         .get()
-                        .uri("/apartments/" + apartmentId)
+                        .uri("/api/apartments/{apartmentId}", apartmentId)
                         .retrieve()
                         .bodyToMono(ApartmentResponse.class)
                         .block())

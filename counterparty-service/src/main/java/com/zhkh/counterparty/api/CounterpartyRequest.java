@@ -3,6 +3,8 @@ package com.zhkh.counterparty.api;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 public class CounterpartyRequest {
@@ -14,4 +16,5 @@ public class CounterpartyRequest {
     private String phone;
     private String email;
     private String contactPerson;
+    private UUID userId;
 }

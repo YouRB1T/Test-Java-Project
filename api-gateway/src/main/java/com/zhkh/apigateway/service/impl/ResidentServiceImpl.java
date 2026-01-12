@@ -14,7 +14,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ResidentServiceImpl implements ResidentService {
-    private final WebClient.Builder webClientBuilder;
     @Override
     public ResidentResponse createResident(ResidentRequest request) {
 

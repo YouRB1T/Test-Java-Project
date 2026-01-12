@@ -1,9 +1,13 @@
 package com.zhkh.service.impl;
 
-import com.zhkh.api.EmployResponse;
+import com.zhkh.api.EmployeeRequest;
+import com.zhkh.api.EmployeeResponse;
 import com.zhkh.mapper.EmployeeMapper;
-import com.zhkh.model.Employ;
-import com.zhkh.repository.EmployRepository;
+import com.zhkh.model.Employee;
+import com.zhkh.model.EmployeeServiceId;
+import com.zhkh.model.EmployeeServiceLink;
+import com.zhkh.repository.EmployeeRepository;
+import com.zhkh.repository.EmployeeServiceLinkRepository;
 import com.zhkh.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -12,76 +16,110 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
+    private final EmployeeRepository employeeRepository;
+    private final EmployeeServiceLinkRepository employeeServiceLinkRepository;
+    private final EmployeeMapper mapper;
 
     @Override
-    public EmployResponse getById(Long id) {
-        Employ employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
-
-        return employeeMapper.toResponse(employee);
+    public EmployeeResponse getById(UUID id) {
+        return mapper.toResponse(
+                employeeRepository.findById(id).orElseThrow(
+                        () -> new EntityNotFoundException("Employee not found")
+                )
+        );
     }
 
     @Override
     public List<EmployeeResponse> getAll() {
-        return employeeMapper.toResponseList(employeeRepository.findAll());
+        return mapper.toResponseList(
+                employeeRepository.findAll()
+        );
+    }
+
+    @Override
+    public List<EmployeeResponse> getByOffice(UUID officeId) {
+        return mapper.toResponseList(
+                employeeRepository.findByOfficeId(officeId)
+        );
     }
 
     @Override
     public EmployeeResponse create(EmployeeRequest request) {
-        Employee employee = employeeMapper.toEntity(request);
-        employeeRepository.save(employee);
-        return employeeMapper.toResponse(employee);
+        return mapper.toResponse(
+                employeeRepository.save(
+                        mapper.toEntity(
+                                request
+                        )
+                )
+        );
     }
 
     @Override
-    public EmployeeResponse update(Long id, EmployeeRequest request) {
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
-
-        employeeMapper.updateEntity(request, employee);
-        return employeeMapper.toResponse(employee);
+    public EmployeeResponse update(UUID id, EmployeeRequest request) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Employee not found")
+        );
+        mapper.update(request, employee);
+        return mapper.toResponse(employee);
     }
 
     @Override
-    public void delete(Long id) {
-        employeeRepository.deleteById(id);
+    public void delete(UUID id) {
+        employeeRepository.delete(
+                employeeRepository.findById(id).orElseThrow(
+                        () -> new EntityNotFoundException("Employee not found")
+                )
+        );
     }
 
     @Override
-    public Set<Long> getServices(Long employeeId) {
-        return employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found"))
-                .getServices()
+    public Set<UUID> getServices(UUID employeeId) {
+        return employeeServiceLinkRepository.findByEmployee_Id(employeeId)
                 .stream()
-                .map(ServiceEntity::getId)
+                .map(link -> link.getId().getServiceId())
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public void addService(Long employeeId, Long serviceId) {
+    public Set<UUID> addService(UUID employeeId, UUID serviceId) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
 
-        ServiceEntity service = serviceRepository.findById(serviceId)
-                .orElseThrow(() -> new EntityNotFoundException("Service not found"));
+        if (employeeServiceLinkRepository
+                .existsByIdEmployeeIdAndIdServiceId(employeeId, serviceId)) {
+            return getServices(employeeId);
+        }
 
-        employee.getServices().add(service);
+        EmployeeServiceId id = new EmployeeServiceId(employeeId, serviceId);
+
+        EmployeeServiceLink link = new EmployeeServiceLink();
+        link.setId(id);
+        link.setEmployee(employee);
+
+        employeeServiceLinkRepository.save(link);
+
+        return getServices(employeeId);
     }
 
     @Override
-    public void removeService(Long employeeId, Long serviceId) {
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
+    public Set<UUID> removeService(UUID employeeId, UUID serviceId) {
+        if (!employeeServiceLinkRepository
+                .existsByIdEmployeeIdAndIdServiceId(employeeId, serviceId)) {
+            return getServices(employeeId);
+        }
 
-        employee.getServices().removeIf(s -> s.getId().equals(serviceId));
+        employeeServiceLinkRepository
+                .deleteByIdEmployeeIdAndIdServiceId(employeeId, serviceId);
+
+        return getServices(employeeId);
     }
 }
 

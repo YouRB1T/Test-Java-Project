@@ -16,6 +16,7 @@ public class EmployeeRequest {
     private String middleName;
     private Integer experienceYears;
     private UUID officeId;
+    private UUID userId;
     private String phone;
     private String email;
     private LocalDate hireDate;

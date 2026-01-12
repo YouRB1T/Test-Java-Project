@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/offices")
+@RequestMapping("/offices")
 @RequiredArgsConstructor
 @Tag(name = "Office Controller", description = "CRUD операции для офисов ЖКХ")
 public class OfficeController {

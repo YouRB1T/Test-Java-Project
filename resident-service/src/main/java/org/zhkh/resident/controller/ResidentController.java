@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/resident")
+@RequestMapping("/resident")
 @RequiredArgsConstructor
 @Tag(name = "Residents", description = "Операции с жильцами")
 public class ResidentController {

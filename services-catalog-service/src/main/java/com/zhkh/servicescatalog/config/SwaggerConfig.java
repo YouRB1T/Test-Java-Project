@@ -14,7 +14,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Building Service API")
-                        .description("API для управления зданиями (Buildings)")
+                        .description("API для управления услугами работников и контрагентов")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Базы данных")
