@@ -2,6 +2,7 @@ package com.zhkh.apigateway.service;
 
 import com.zhkh.apigateway.api.request.RequestRequestModel;
 import com.zhkh.apigateway.api.request.ResponseRequestModel;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -16,11 +17,11 @@ public interface RequestService {
 
     Mono<ResponseRequestModel> getById(UUID id);
 
-    Mono<List<ResponseRequestModel>> getAll();
+    Flux<ResponseRequestModel> getAll();
 
-    void delete(UUID id);
+    Mono<Void> delete(UUID id);
 
-    Mono<List<ResponseRequestModel>> getByResident(UUID residentId);
+    Flux<ResponseRequestModel> getByResident(UUID residentId);
 
     Mono<Set<UUID>> getServices(UUID requestId);
 
